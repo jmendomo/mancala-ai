@@ -89,6 +89,39 @@ def max_value(state, is_p1):
     
     return max_utility
 
+def alpha_beta(state, alpha, beta, is_p1):
+  
+    actions = P1_ACTIONS if is_p1 else P2_ACTIONS
+    results = []
+    
+    if is_p1:
+    max_utility = float("-inf")
+    for action in actions:
+        print('Evaluating action ' + str(action))
+        utility = alpha_beta(state.result(action), alpha, beta, False)
+        max_utility = max(max_utility, utility)
+        alpha = max(alpha, utility)
+        if beta <= alpha:
+            break
+        return max_utility
+        return action
+        
+    print('Player ' + ('1' if is_p1 else '2') + '\'s turn: ' + str(action))
+
+    else:
+        min_utility = float("inf")
+        for action in actions:
+            print('Evaluating action ' + str(action))
+            utility = alpha_beta(state.result(action), alpha, beta, True)
+            min_utility = max(min_utility, utility)
+            beta = max(betaa, utility)
+            if beta <= alpha:
+                break
+        return min_utility
+        return action
+    
+    print('Player ' + ('1' if is_p1 else '2') + '\'s turn: ' + str(action))
+
 def human_decision(state, is_p1):
     actions = P1_ACTIONS if is_p1 else P2_ACTIONS
 
