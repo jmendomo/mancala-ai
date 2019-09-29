@@ -20,11 +20,10 @@ def print_usage():
 def print_winner(current_state):
     utility = current_state.get_utility()
 
-    print('Game over. ', end='')
     if utility == 0:
-        print('It\'s a draw!')
+        print('Draw.')
     else:
-        print('Player ' + ('1' if utility > 0 else '2') + ' won!')
+        print('Player ' + ('1' if utility > 0 else '2') + ' wins!')
 
 if __name__ == '__main__':
     if len(sys.argv) != 3:
@@ -37,19 +36,21 @@ if __name__ == '__main__':
     init_board = ([NUM_STONES for i in range((NUM_PITS - 2) // 2)] + [0]) * 2
     current_state = state(init_board)
 
-    print(current_state)
-
     while True:
-        current_state = current_state.result(p1.move(current_state))
-        print(current_state)
+        continue_playing = 1
+        while continue_playing:
+            current_state, continue_playing = current_state.result(p1.move(current_state))
 
-        if current_state.is_terminal_state():
-            print_winner(current_state)
-            exit(0)
+            if current_state.is_terminal_state():
+                print_winner(current_state)
+                exit(0)
 
-        current_state = current_state.result(p2.move(current_state))
-        print(current_state)
+        continue_playing = 1
+        while continue_playing:
+            current_state, continue_playing = current_state.result(p2.move(current_state))
 
-        if current_state.is_terminal_state():
-            print_winner(current_state)
-            exit(0)
+            if current_state.is_terminal_state():
+                print_winner(current_state)
+                exit(0)
+        
+        print(current_state, file=sys.stderr)
