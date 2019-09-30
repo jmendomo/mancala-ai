@@ -2,6 +2,8 @@ from config import *
 import random
 import time
 
+states_expanded = set()
+
 class player():
     def __init__(self, player_type, is_p1):
         self.is_p1 = is_p1
@@ -21,6 +23,9 @@ class player():
         elif self.player_type == MINIMAX:   return minimax_decision(current_state, self.is_p1)
         elif self.player_type == ALPHABETA: return alphabeta_decision(current_state, self.is_p1)
         elif self.player_type == HUMAN:     return human_decision(current_state, self.is_p1)
+    
+    def get_player_type(self):
+        return self.player_type
 
 def random_decision(state, is_p1):
     actions = P1_ACTIONS if is_p1 else P2_ACTIONS
@@ -36,15 +41,16 @@ def minimax_decision(state, is_p1):
     results = []
 
     for action in actions:
-        print('Evaluating action ' + str(action))
+        # print('Evaluating action ' + str(action))
         if state.is_valid_action(action):
             next_state, additional_move = state.result(action)
+            if record_states: states_expanded.add(next_state)
             if is_p1:
-                if additional_move: results.append(max_value(next_state, is_p1))
-                else:               results.append(min_value(next_state, is_p1))
+                if additional_move: results.append(max_value(next_state, is_p1, 1))
+                else:               results.append(min_value(next_state, is_p1, 1))
             else:
-                if additional_move: results.append(min_value(next_state, is_p1))
-                else:               results.append(max_value(next_state, is_p1))
+                if additional_move: results.append(min_value(next_state, is_p1, 1))
+                else:               results.append(max_value(next_state, is_p1, 1))
         else:
             if is_p1: results.append(INT_MIN)
             else:     results.append(INT_MAX)
@@ -59,8 +65,8 @@ def minimax_decision(state, is_p1):
 
     return action
 
-def min_value(state, is_p1):
-    if state.is_terminal_state():
+def min_value(state, is_p1, depth):
+    if state.is_terminal_state() or depth == MAX_DEPTH:
         return state.get_utility()
     
     min_utility = INT_MAX
@@ -69,13 +75,14 @@ def min_value(state, is_p1):
     for action in actions:
         if state.is_valid_action(action):
             next_state, additional_move = state.result(action)
-            if additional_move: min_utility = min(min_utility, min_value(next_state, is_p1))
-            else:               min_utility = min(min_utility, max_value(next_state, is_p1))
+            if record_states: states_expanded.add(next_state)
+            if additional_move: min_utility = min(min_utility, min_value(next_state, is_p1, depth + 1))
+            else:               min_utility = min(min_utility, max_value(next_state, is_p1, depth + 1))
     
     return min_utility
 
-def max_value(state, is_p1):
-    if state.is_terminal_state():
+def max_value(state, is_p1, depth):
+    if state.is_terminal_state() or depth == MAX_DEPTH:
         return state.get_utility()
 
     max_utility = INT_MIN
@@ -84,8 +91,9 @@ def max_value(state, is_p1):
     for action in actions:
         if state.is_valid_action(action):
             next_state, additional_move = state.result(action)
-            if additional_move: max_utility = max(max_utility, max_value(next_state, is_p1))
-            else:               max_utility = max(max_utility, min_value(next_state, is_p1))
+            if record_states: states_expanded.add(next_state)
+            if additional_move: max_utility = max(max_utility, max_value(next_state, is_p1, depth + 1))
+            else:               max_utility = max(max_utility, min_value(next_state, is_p1, depth + 1))
     
     return max_utility
 

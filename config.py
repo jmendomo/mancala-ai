@@ -1,8 +1,8 @@
 import sys
 
 # game configuration
-NUM_STONES = 1
-NUM_PITS = 10
+NUM_STONES = 4
+NUM_PITS = 14
 
 # set numbers for players 1 and 2
 P1_STORE = (NUM_PITS - 2) // 2
@@ -21,3 +21,7 @@ RANDOM = 0
 MINIMAX = 1
 ALPHABETA = 2
 HUMAN = 3
+
+# minimax specific-settings
+MAX_DEPTH = 7
+record_states = True

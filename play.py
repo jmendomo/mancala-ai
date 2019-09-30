@@ -17,6 +17,26 @@ def print_usage():
     print('Usage: ./play player1 player2\n\n' + \
           'player1 and player2 can be random, minimax, alphabeta, or human')
 
+def play_game(current_state, p1, p2):
+    while True:
+        continue_playing = 1
+        while continue_playing:
+            current_state, continue_playing = current_state.result(p1.move(current_state))
+
+            if current_state.is_terminal_state():
+                print_winner(current_state)
+                return
+
+        continue_playing = 1
+        while continue_playing:
+            current_state, continue_playing = current_state.result(p2.move(current_state))
+
+            if current_state.is_terminal_state():
+                print_winner(current_state)
+                return
+        
+        print(current_state, file=sys.stderr)
+
 def print_winner(current_state):
     utility = current_state.get_utility()
 
@@ -28,29 +48,15 @@ def print_winner(current_state):
 if __name__ == '__main__':
     if len(sys.argv) != 3:
         print_usage()
-        exit(0)
+        exit(1)
     
     p1 = player(sys.argv[1], IS_P1)
     p2 = player(sys.argv[2], IS_P2)
-
     init_board = ([NUM_STONES for i in range((NUM_PITS - 2) // 2)] + [0]) * 2
-    current_state = state(init_board)
 
-    while True:
-        continue_playing = 1
-        while continue_playing:
-            current_state, continue_playing = current_state.result(p1.move(current_state))
-
-            if current_state.is_terminal_state():
-                print_winner(current_state)
-                exit(0)
-
-        continue_playing = 1
-        while continue_playing:
-            current_state, continue_playing = current_state.result(p2.move(current_state))
-
-            if current_state.is_terminal_state():
-                print_winner(current_state)
-                exit(0)
-        
-        print(current_state, file=sys.stderr)
+    play_game(state(init_board), p1, p2)
+    
+    if ((p1.get_player_type() in [MINIMAX, ALPHABETA]) or \
+        (p2.get_player_type() in [MINIMAX, ALPHABETA])) and \
+       record_states:
+        print('Number of states expanded: ' + str(len(states_expanded)))
