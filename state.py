@@ -3,19 +3,17 @@ from config import *
 class state():
     def __init__(self, board):
         self.board = board
-        self.is_terminal = False
 
         p1_pit_sum = sum(self.board[0:P1_STORE])
         p2_pit_sum = sum(self.board[P1_STORE + 1:P2_STORE])
         self.utility = self.board[P1_STORE] + p1_pit_sum - self.board[P2_STORE] - p2_pit_sum
         self.is_terminal = (p1_pit_sum == 0) or (p2_pit_sum == 0)
     
-    # For NUM_PITS = 14
     def __str__(self):
         result = ''
 
-        # result += '           6    5    4     3    2    1\n'
-        result += '     13   12   11    10    9    8    7\n'
+        result += '           6    5    4     3    2    1\n'
+        # result += '     13   12   11    10    9    8    7\n'
         result += '        --------------------------------\n'
 
         result += '    '
@@ -32,62 +30,10 @@ class state():
         result += '\n'
 
         result += '        --------------------------------\n'
-        # result += '           1    2    3     4    5    6\n'
-        result += '           0    1    2     3    4    5    6\n'
+        result += '           1    2    3     4    5    6\n'
+        # result += '           0    1    2     3    4    5    6\n'
 
         return result
-
-    # For NUM_PITS = 12
-    # def __str__(self):
-    #     result = ''
-
-    #     result += '     11   10    9     8    7    6\n'
-    #     result += '        ---------------------------\n'
-
-    #     result += '    '
-    #     for i in range(11, 8, -1): result += ' ' + '{:02d}'.format(self.board[i]) + ' |'
-    #     result += '|'
-    #     for i in range(8, 5, -1): result += ' ' + '{:02d}'.format(self.board[i]) + ' |'
-    #     result += ' P2\n'
-
-    #     result += '    -----------------------------------\n'
-        
-    #     result += '     P1 |'
-    #     for i in range(0, 3): result += ' ' + '{:02d}'.format(self.board[i]) + ' |'
-    #     for i in range(3, 6): result += '| ' + '{:02d}'.format(self.board[i]) + ' '
-    #     result += '\n'
-
-    #     result += '        ---------------------------\n'
-    #     result += '           0    1    2     3    4    5\n'
-
-    #     return result
-    
-    # For NUM_PITS = 10
-    # def __str__(self):
-    #     result = ''
-
-    #     # result += '           6    5    4     3    2    1\n'
-    #     result += '      9    8     7    6    5\n'
-    #     result += '        ----------------------\n'
-
-    #     result += '    '
-    #     for i in range(9, 6, -1): result += ' ' + '{:02d}'.format(self.board[i]) + ' |'
-    #     result += '|'
-    #     for i in range(6, 4, -1): result += ' ' + '{:02d}'.format(self.board[i]) + ' |'
-    #     result += ' P2\n'
-
-    #     result += '    ------------------------------\n'
-        
-    #     result += '     P1 |'
-    #     for i in range(0, 2): result += ' ' + '{:02d}'.format(self.board[i]) + ' |'
-    #     for i in range(2, 5): result += '| ' + '{:02d}'.format(self.board[i]) + ' '
-    #     result += '\n'
-
-    #     result += '        ----------------------\n'
-    #     # result += '           1    2    3     4    5    6\n'
-    #     result += '           0    1     2    3    4\n'
-
-    #     return result
     
     def result(self, chosen_pit):
         next_board = self.board[:]

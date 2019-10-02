@@ -12,6 +12,7 @@
 from config import *
 from player import *
 from state import *
+import sys
 
 def print_usage():
     print('Usage: ./play player1 player2\n\n' + \
@@ -58,5 +59,7 @@ if __name__ == '__main__':
     
     if ((p1.get_player_type() in [MINIMAX, ALPHABETA]) or \
         (p2.get_player_type() in [MINIMAX, ALPHABETA])) and \
-       record_states:
-        print('Number of states expanded: ' + str(len(states_expanded)))
+       count_states:
+        for i in range(len(states_expanded)):
+            print('States expanded in turn ' + str(i+1) + ': ' + str(states_expanded[i]))
+        print('Total states expanded: ' + str(sum(states_expanded)))

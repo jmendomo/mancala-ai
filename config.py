@@ -1,5 +1,3 @@
-import sys
-
 # game configuration
 NUM_STONES = 4
 NUM_PITS = 14
@@ -13,8 +11,8 @@ IS_P1 = 1
 IS_P2 = 0
 
 # plus and minus infinity
-INT_MIN = -sys.maxsize - 1
-INT_MAX = sys.maxsize
+POS_INF = float('inf')
+NEG_INF = float('-inf')
 
 # the four player types
 RANDOM = 0
@@ -22,6 +20,7 @@ MINIMAX = 1
 ALPHABETA = 2
 HUMAN = 3
 
-# minimax specific-settings
-MAX_DEPTH = 7
-record_states = True
+# minimax and alpha-beta specific-settings
+MINIMAX_MAX_DEPTH = 7
+ALPHABETA_MAX_DEPTH = 7
+count_states = False
