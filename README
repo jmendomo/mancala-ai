@@ -2,15 +2,6 @@
 == README ==
 ============
 
-Submitted by the group:
-
-|----------------------|----------|
-| Name                 | NetID    |
-|----------------------|----------|
-| Jemima Mendomo Mvomo | jmendomo |
-| Sudhanshu Gupta      | sgupta45 |
-| Vasisht Guru Prasad  | vgurupra |
-|----------------------|----------|
 
 The game requires Python 3 to run, but no additional library. To run it, first make the script
 executable by typing:
