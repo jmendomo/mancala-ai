@@ -1,3 +1,4 @@
+'''
 ============
 == README ==
 ============
@@ -13,3 +14,4 @@ Then, run the game by typing:
     ./play.py <player1> <player2>
 
 where player1 and player2 can be random, minimax, alphabeta, or human.
+'''
